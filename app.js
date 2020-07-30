@@ -14,16 +14,17 @@ const fruit = new Fruit({
     review: "Pretty solid as far as fruits go"
 })
 
-fruit.save()
+// fruit.save()
 
-    
-    const findDocuments = function(db, callback) {
-        const collection = db.collection('fruits')
-        
-        collection.find({}).toArray(function(err, fruits) {
-            assert.equal(err, null)
-            console.log("Found the following records")
-            console.log(fruits)
-            callback(fruits)
-        })
-    }
+const personSchema = new mongoose.Schema({
+    name: String,
+    age: Number
+})
+
+const Person = mongoose.model("Person", personSchema)
+const person = new Person({
+    name: "John",
+    age: 37
+})
+
+person.save()
