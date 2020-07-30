@@ -1,38 +1,21 @@
 const mongoose = require('mongoose')
-mongoose.connect("mongodb://localhost:27017/fruitsDB")
-const url = 'mongodb://localhost:27017'
+mongoose.connect("mongodb://localhost:27017/fruitsDB", {useNewUrlParser: true, useUnifiedTopology: true})
 
-const dbName = 'fruitsDB'
+const fruitSchema = new mongoose.Schema({
+    name: String,
+    rating: Number,
+    review: String
+})
 
-const client = new MongoClient(url, {useNewUrlParser: true,  useUnifiedTopology: true})
+const Fruit = mongoose.model("Fruit", fruitSchema)
+const fruit = new Fruit({
+    name: "Apple",
+    rating: 7,
+    review: "Pretty solid as far as fruits go"
+})
 
+fruit.save()
 
-const insertDocuments = function(db, callback) {
-    const collection = db.collection('fruits')
-    collection.insertMany([
-        {
-            name: "Apple",
-            score: 8,
-            review: "Great Fruit"
-        }, 
-        {
-            name: "Orange",
-            score: 6,
-            review: "Kinda sour"
-        }, 
-        {
-            name : "Banana",
-            score: 9,
-            review: "Great Stuff"    
-        }
-    ], function(err, result) {
-        assert.equal(err, null)
-        assert.equal(3, result.result.n)
-        assert.equal(3, result.ops.length)
-        console.log("Inserted 3 documents into the collection")
-        callback(result)
-    })
-}
     
     const findDocuments = function(db, callback) {
         const collection = db.collection('fruits')
@@ -44,12 +27,3 @@ const insertDocuments = function(db, callback) {
             callback(fruits)
         })
     }
-client.connect(function(err) {
-    assert.equal(null, err)
-    console.log("Connected successfully to server")
-    const db = client.db(dbName)
-
-    findDocuments(db, function() {
-        client.close()
-    })
-})
