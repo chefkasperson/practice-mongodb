@@ -27,4 +27,27 @@ const person = new Person({
     age: 37
 })
 
-person.save()
+const kiwi = new Fruit({
+    name: "Kiwi",
+    score: 10,
+    review: "The best fruit!"
+})
+const orange = new Fruit({
+    name: "Orange",
+    score: 8,
+    review: "I like mine a little sour"
+})
+const banana = new Fruit({
+    name: "Banana",
+    score: 7,
+    review: "Comes prepacked"
+})
+
+// person.save()
+Fruit.insertMany([kiwi, orange, banana], function(err){
+    if (err) {
+        console.log(err)
+    } else {
+        console.log("Successfully saved!")
+    }
+})
