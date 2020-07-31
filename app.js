@@ -44,10 +44,22 @@ const banana = new Fruit({
 })
 
 // person.save()
-Fruit.insertMany([kiwi, orange, banana], function(err){
+// Fruit.insertMany([kiwi, orange, banana], function(err){
+//     if (err) {
+//         console.log(err)
+//     } else {
+//         console.log("Successfully saved!")
+//     }
+// })
+
+Fruit.find(function(err, fruits) {
     if (err) {
         console.log(err)
     } else {
-        console.log("Successfully saved!")
+        // console.log(fruits)
+        mongoose.connection.close()
+        fruits.forEach(function(fruit) {
+            console.log(fruit.name)
+        })
     }
 })
